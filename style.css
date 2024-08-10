@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  background-color: #c3cfb4;
+}
+
+ul li{
+  background-color: #e47be8;
+  color:crimson;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+nav {
+  background-color: rgb(37, 9, 37);
+  color: rgb(155, 147, 147);
+  border: 2px solid red;
+  font-size: 27px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 15px;
+  font-family: 'Roboto', sans-serif;
+}
+
+nav ul {
+  list-style-type: none;
+}
+
+.winnerDisplay {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.gameContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  position: relative; /* Added for the winning line */
+}
+
+.container {
+  display: grid;
+  grid-template-rows: repeat(3, 10vw);
+  grid-template-columns: repeat(3, 10vw);
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.box {
+  border: 2px solid black;
+  font-size: 8vw;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.line {
+  background-color: black;
+  height: 3px;
+  width: 0; /* Initially set to 0 */
+  position: absolute;
+  top: 10vw;
+  left: 10vw;
+  transition: all 0.5s ease-in-out;
+}
+
+.box:hover {
+  background-color: rgb(187, 182, 192);
+}
+
+.gameInfo {
+  padding: 0 34px;
+  font-family: 'Baloo Bhaina 2', cursive;
+}
+
+.gameInfo h1 {
+  font-size: 2.5rem;
+}
+
+.br-0 {
+  border-right: 0;
+}
+
+.bl-0 {
+  border-left: 0;
+}
+
+.bt-0 {
+  border-top: 0;
+}
+
+.bb-0 {
+  border-bottom: 0;
+}
+
+.imgbox img {
+  width: 0;
+  transition: width 1s ease-in-out;
+  display: none;
+}
+
+.info {
+  font-size: 25px;
+}
+
+#reset {
+  margin: 0 23px;
+  padding: 6px 14px;
+  background: teal;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 15px;
+  font-weight: bolder;
+}
+
+@media screen and (min-width: 100px) and (max-width: 950px) {
+  .gameContainer {
+    flex-wrap: wrap;
+  }
+  .gameInfo {
+    margin-top: 34px;
+  }
+  .gameInfo h1 {
+    font-size: 1.5rem;
+  }
+  .container {
+    display: grid;
+    grid-template-rows: repeat(3, 20vw);
+    grid-template-columns: repeat(3, 20vw);
+  }
+}
