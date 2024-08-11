@@ -7,6 +7,7 @@ let playerO = prompt("Enter the name for Player O:");
 let music = new Audio("music.mp3");
 let audioTurn = new Audio("ting.mp3");
 let gameOver = new Audio("gameOver.mp3");
+let drawSound = new Audio("draw.mp3"); // Add a sound for a draw
 let turn = "x";
 let gameover = false;
 
@@ -15,7 +16,7 @@ const changeTurn = () => {
   return turn === "X" || turn === "x" ? "O" : "x";
 };
 
-// Function to check for a win:
+// Function to check for a win or draw:
 const checkWin = () => {
   let boxtexts = document.getElementsByClassName("boxtext");
   let wins = [
@@ -28,6 +29,8 @@ const checkWin = () => {
     [0, 4, 8, 0, 15, 45],  // Diagonal top-left to bottom-right
     [2, 4, 6, 0, 15, -45], // Diagonal top-right to bottom-left
   ];
+  let isDraw = true;
+  
   wins.forEach((e) => {
     if (
       boxtexts[e[0]].innerText === boxtexts[e[1]].innerText &&
@@ -35,6 +38,7 @@ const checkWin = () => {
       boxtexts[e[0]].innerText !== ""
     ) {
       gameover = true;
+      isDraw = false;
 
       // Displaying the winner's name
       let winnerName = turn === "x" ? playerX : playerO;
@@ -46,13 +50,53 @@ const checkWin = () => {
 
       // Displaying the winning image and name at the top of the page with height 50vh
       document.querySelector(".winnerDisplay").innerHTML = `
-        <img src="winner.webp" alt="Winner" style="height: 50vh; width: auto;">;
+        <img src="winner.webp" alt="Winner" style="height: 50vh; width: auto;">
         <h2>${winnerName} Won!</h2>`;
       
       // game over sound
       gameOver.play();
     }
   });
+
+  // Check for a draw
+  if (isDraw) {
+    for (let i = 0; i < boxtexts.length; i++) {
+      if (boxtexts[i].innerText === "") {
+        isDraw = false;
+        break;
+      }
+    }
+  }
+
+  if (isDraw && !gameover) {
+    gameover = true;
+    document.querySelector(".info").innerText = "It's a Draw!";
+    document.querySelector(".winnerDisplay").innerHTML = `
+      <h2>It's a Draw!</h2>`;
+    drawSound.play();
+
+    // Play another game prompt
+    setTimeout(() => {
+      if (confirm("It's a draw! Do you want to play another game?")) {
+        resetGame();
+      }
+    }, 1000);
+  }
+};
+
+// Function to reset the game
+const resetGame = () => {
+  let boxTexts = document.querySelectorAll(".boxtext");
+  Array.from(boxTexts).forEach((e) => {
+    e.innerText = "";
+  });
+  turn = "x";
+  gameover = false;
+  document.querySelector(".info").innerText = "Turn for: " + playerX;
+  document.querySelector(".line").style.width = "0"; // Hide the winning line
+
+  // Clearing the winner display at the top of the page
+  document.querySelector(".winnerDisplay").innerHTML = "";
 };
 
 // Game Logic:
@@ -76,17 +120,7 @@ Array.from(boxes).forEach((element) => {
 
 // Adding onclick listener to reset button:
 document.getElementById("reset").addEventListener("click", () => {
-  let boxTexts = document.querySelectorAll(".boxtext");
-  Array.from(boxTexts).forEach((e) => {
-    e.innerText = "";
-  });
-  turn = "x";
-  gameover = false;
-  document.querySelector(".info").innerText = "Turn for: " + playerX;
-  document.querySelector(".line").style.width = "0"; // Hide the winning line
-
-  // Clearing the winner display at the top of the page
-  document.querySelector(".winnerDisplay").innerHTML = "";
+  resetGame();
 });
 
 // Setting initial display to show the first player's turn after getting names
